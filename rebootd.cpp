@@ -229,14 +229,14 @@ int main(int argc, char* argv[])
         return 1;
     }
     
-    // daemon_start();
+    daemon_start();
     
     signal(SIGINT, sig_handler);
     signal(SIGTERM, sig_handler);
     
     run_server();
     
-    // daemon_terminate();
+    daemon_terminate();
     
     return 0;
 }

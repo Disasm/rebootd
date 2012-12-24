@@ -190,14 +190,20 @@ int run_server()
         int h = accept(sock, (struct sockaddr*)&sa, (socklen_t *)&len);
         if(h==-1)
         {
-            break;
+            usleep(10000);
+            continue;
         }
         
         uint8_t nonce[128];
         rngGet(nonce, sizeof(nonce));
         
         pid_t pid = fork();
-        if(pid==-1) break;
+        if(pid==-1)
+        {
+            shutdown(h, SHUT_RDWR);
+            close(h);
+            continue;
+        }
         
         if(pid==0) // child process
         {
